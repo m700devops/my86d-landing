@@ -487,6 +487,14 @@ img {
     margin-right: auto;
 }
 
+/* Small print under the App Store CTAs */
+.platform-note {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-top: 12px;
+    text-align: center;
+}
+
 /* ===== FOOTER ===== */
 .footer {
     padding: 40px 0;
