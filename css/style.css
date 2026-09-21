@@ -553,6 +553,14 @@ img {
     border-top: 1px solid var(--border-color);
 }
 
+.footer-company {
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 8px;
+    opacity: 0.8;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
     .steps {
