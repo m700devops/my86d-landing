@@ -1,169 +1,108 @@
-// ===== 86'd Landing Page JavaScript =====
+/* ===========================================================
+   86'd - my86d.com
+   The page works fully without this file. Everything here is
+   tracking and two pieces of polish.
+   =========================================================== */
+(function () {
+  'use strict';
 
-document.addEventListener('DOMContentLoaded', function() {
-    // ===== Mobile Menu =====
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenuClose = document.getElementById('mobileMenuClose');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+  /* ---------------------------------------------------------
+     THE App Store link lives here.
+     Add campaign tracking later by filling in CAMPAIGN: every
+     badge and button on the page is rewritten from this on load.
+     e.g. CAMPAIGN.pt = '123456789'  ->  ...?pt=123456789&ct=hero
+     The plain hrefs in index.html are the no-JS fallback.
+     --------------------------------------------------------- */
+  var APP_STORE_URL = 'https://apps.apple.com/us/app/86d-bar-inventory/id6798359825';
+  var CAMPAIGN = { pt: '', mt: '8' };
 
-    if (mobileMenuBtn && mobileMenu) {
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
+  var links = document.querySelectorAll('[data-appstore]');
 
-        mobileMenuClose.addEventListener('click', () => {
-            mobileMenu.classList.remove('active');
-            document.body.style.overflow = '';
-        });
+  function urlFor(placement) {
+    if (!CAMPAIGN.pt) return APP_STORE_URL;
+    var q = ['pt=' + encodeURIComponent(CAMPAIGN.pt), 'ct=' + encodeURIComponent(placement)];
+    if (CAMPAIGN.mt) q.push('mt=' + encodeURIComponent(CAMPAIGN.mt));
+    return APP_STORE_URL + '?' + q.join('&');
+  }
 
-        mobileNavLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-        });
+  function track(name, params) {
+    if (typeof gtag === 'function') gtag('event', name, params);
+  }
+
+  Array.prototype.forEach.call(links, function (link) {
+    var placement = link.getAttribute('data-appstore');
+    link.href = urlFor(placement);
+    link.addEventListener('click', function () {
+      track('app_store_click', { placement: placement });
+    });
+  });
+
+  /* ---------- FAQ: one event per question opened ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll('.faq-list details'), function (item) {
+    item.addEventListener('toggle', function () {
+      if (!item.open) return;
+      var q = item.querySelector('summary');
+      track('faq_open', { question: q ? q.textContent.trim() : '' });
+    });
+  });
+
+  /* ---------- scroll depth: 50% and 90%, once each ---------- */
+  var marks = [50, 90];
+  function onScroll() {
+    var doc = document.documentElement;
+    var scrollable = doc.scrollHeight - window.innerHeight;
+    if (scrollable <= 0) return;
+    var pct = ((window.pageYOffset || doc.scrollTop) / scrollable) * 100;
+    while (marks.length && pct >= marks[0]) {
+      track('scroll_depth', { percent: marks.shift() });
+    }
+    if (!marks.length) window.removeEventListener('scroll', onScroll);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  if (!('IntersectionObserver' in window)) return;
+
+  /* ---------- mobile sticky bar ----------
+     Shown once the hero has scrolled away; hidden again while the
+     pricing card or the final CTA is on screen. */
+  var bar = document.getElementById('stickyBar');
+  var hero = document.getElementById('top');
+  var priceCard = document.getElementById('price-card');
+  var finalCta = document.getElementById('final-cta');
+
+  if (bar && hero) {
+    var heroGone = false;
+    var ctaOnScreen = 0;
+
+    function paint() {
+      var show = heroGone && ctaOnScreen === 0;
+      if (show) bar.hidden = false;
+      bar.classList.toggle('is-visible', show);
     }
 
-    // ===== FAQ Accordion =====
-    const faqQuestions = document.querySelectorAll('.faq-question');
+    new IntersectionObserver(function (entries) {
+      heroGone = !entries[0].isIntersecting;
+      paint();
+    }, { threshold: 0 }).observe(hero);
 
-    faqQuestions.forEach(question => {
-        question.addEventListener('click', () => {
-            const answer = question.nextElementSibling;
-            const icon = question.querySelector('.faq-icon');
-            const isExpanded = question.getAttribute('aria-expanded') === 'true';
+    var ctaWatcher = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { ctaOnScreen += e.isIntersecting ? 1 : -1; });
+      if (ctaOnScreen < 0) ctaOnScreen = 0;
+      paint();
+    }, { threshold: 0 });
+    [priceCard, finalCta].forEach(function (el) { if (el) ctaWatcher.observe(el); });
+  }
 
-            // Close all other FAQs
-            faqQuestions.forEach(q => {
-                if (q !== question) {
-                    q.setAttribute('aria-expanded', 'false');
-                    q.nextElementSibling.classList.remove('active');
-                    q.querySelector('.faq-icon').textContent = '+';
-                }
-            });
-
-            // Toggle current FAQ
-            question.setAttribute('aria-expanded', !isExpanded);
-            answer.classList.toggle('active');
-            icon.textContent = isExpanded ? '+' : '−';
-        });
-    });
-
-    // ===== Smooth Scroll for Anchor Links =====
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                e.preventDefault();
-                const headerOffset = 80;
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-
-    // ===== Header Scroll Effect =====
-    const header = document.getElementById('header');
-    let lastScroll = 0;
-
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-
-        if (currentScroll > 100) {
-            header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.3)';
-        } else {
-            header.style.boxShadow = 'none';
-        }
-
-        lastScroll = currentScroll;
-    });
-
-    // ===== Google Analytics Event Tracking =====
-    const trackableElements = document.querySelectorAll('[data-ga-event]');
-
-    trackableElements.forEach(element => {
-        element.addEventListener('click', function() {
-            const eventName = this.getAttribute('data-ga-event');
-            
-            if (typeof gtag !== 'undefined') {
-                gtag('event', eventName, {
-                    event_category: 'engagement',
-                    event_label: this.textContent.trim(),
-                    page_location: window.location.href,
-                    page_path: window.location.pathname
-                });
-            }
-
-            // Debug logging (remove in production)
-            console.log('GA Event:', eventName);
-        });
-    });
-
-    // ===== Intersection Observer for Animations =====
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-
-    // Observe sections for fade-in effect
-    const sections = document.querySelectorAll('section');
-    sections.forEach(section => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(20px)';
-        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(section);
-    });
-
-    // ===== Performance: Lazy Load Images (if any added later) =====
-    if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    if (img.dataset.src) {
-                        img.src = img.dataset.src;
-                        img.removeAttribute('data-src');
-                        imageObserver.unobserve(img);
-                    }
-                }
-            });
-        });
-
-        document.querySelectorAll('img[data-src]').forEach(img => {
-            imageObserver.observe(img);
-        });
-    }
-
-    // ===== Console Welcome Message =====
-    console.log('%c86\'d', 'font-size: 24px; font-weight: bold; color: #FF6B35;');
-    console.log('%cBar Inventory in 10 Minutes', 'font-size: 14px; color: #A3A3A3;');
-    console.log('%cBuilt for bartenders. No bullshit.', 'font-size: 12px; color: #737373;');
-});
-
-// ===== Service Worker Registration (for PWA support later) =====
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        // Uncomment when service worker is added
-        // navigator.serviceWorker.register('/sw.js');
-    });
-}
+  /* ---------- the logo stamps in, once ---------- */
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var mark = document.querySelector('.price-mark');
+  if (mark && priceCard && !reduced.matches) {
+    var stamper = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      mark.classList.add('is-stamped');
+      stamper.disconnect();
+    }, { threshold: 0.4 });
+    stamper.observe(priceCard);
+  }
+})();
