@@ -1,285 +1,443 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>86'd - AI Bar Inventory Scanning | Start Free Trial</title>
-    <meta name="description" content="AI bar inventory app. Scan bottles, set prices once, auto-generate distributor orders. Free 30-day trial, no card required.">
-    <meta name="robots" content="index, follow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>86'd: Bar inventory and distributor orders in 15 minutes | iPhone app</title>
+<meta name="description" content="Point your iPhone at each bottle, tap the count, and every distributor gets their order at once. 15 days free, no card.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0F0F0F">
+<link rel="canonical" href="https://my86d.com/">
 
-    <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CNKRVQYBB0"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-CNKRVQYBB0');
-    </script>
+<!-- Smart App Banner -->
+<meta name="apple-itunes-app" content="app-id=6798359825">
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+<!-- Open Graph / Twitter -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="86'd">
+<meta property="og:url" content="https://my86d.com/">
+<meta property="og:title" content="86'd: Bar inventory and distributor orders in 15 minutes">
+<meta property="og:description" content="Point your iPhone at each bottle, tap the count, and every distributor gets their order at once. 15 days free, no card.">
+<meta property="og:image" content="https://my86d.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="86'd - Count the bar. Send every order.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="86'd: Bar inventory and distributor orders in 15 minutes">
+<meta name="twitter:description" content="Point your iPhone at each bottle, tap the count, and every distributor gets their order at once. 15 days free, no card.">
+<meta name="twitter:image" content="https://my86d.com/assets/og.png">
+
+<!-- Icons -->
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+
+<!-- Fonts: Inter Tight for headlines, Inter for body -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Loaded without blocking the first paint. The font stack falls back to
+     system-ui until it arrives, and the <noscript> copy covers JS being off. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@800;900&amp;family=Inter:wght@400;600&amp;display=swap"
+      onload="this.onload=null;this.rel='stylesheet'">
+<noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@800;900&amp;family=Inter:wght@400;600&amp;display=swap">
+</noscript>
+
+<link rel="stylesheet" href="css/style.css">
+
+<!-- Google Analytics 4.
+     The queue is set up now so nothing is lost, but the 180KB tag itself is
+     fetched once the page is idle, so it stays off the critical path. -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-CNKRVQYBB0');
+(function () {
+  var loaded = false;
+  function loadGA() {
+    if (loaded) return;
+    loaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-CNKRVQYBB0';
+    document.head.appendChild(s);
+  }
+  // Whichever comes first: the browser going idle, or the visitor doing something.
+  if ('requestIdleCallback' in window) requestIdleCallback(loadGA, { timeout: 3000 });
+  else window.addEventListener('load', loadGA);
+  ['pointerdown', 'keydown', 'scroll'].forEach(function (e) {
+    window.addEventListener(e, loadGA, { once: true, passive: true });
+  });
+})();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "86'd",
+  "description": "Count the bar with your iPhone camera and email every distributor their order at once.",
+  "operatingSystem": "iOS 15.1 or later",
+  "applicationCategory": "BusinessApplication",
+  "url": "https://my86d.com/",
+  "installUrl": "https://apps.apple.com/us/app/86d-bar-inventory/id6798359825",
+  "author": {"@type": "Person", "name": "Stephan Khouri"},
+  "publisher": {"@type": "Organization", "name": "Southport AI Solutions"},
+  "offers": {
+    "@type": "Offer",
+    "price": "49.99",
+    "priceCurrency": "USD",
+    "category": "subscription"
+  }
+}
+</script>
 </head>
 <body>
-    <!-- HEADER -->
-    <header class="header" id="header">
-        <div class="header-container">
-            <a href="#" class="logo">86'd</a>
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-            </button>
-            <a href="https://apps.apple.com/app/id6798359825" target="_blank" rel="noopener" class="header-cta" data-ga-event="start_free_trial">Start Free Trial</a>
-        </div>
-    </header>
 
-    <!-- MOBILE MENU -->
-    <nav class="mobile-menu" id="mobileMenu">
-        <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-        </button>
-        <a href="#how-it-works" class="mobile-nav-link">How It Works</a>
-        <a href="#features" class="mobile-nav-link">Features</a>
-        <a href="#pricing" class="mobile-nav-link">Pricing</a>
-        <a href="#faq" class="mobile-nav-link">FAQ</a>
-        <a href="https://apps.apple.com/app/id6798359825" target="_blank" rel="noopener" class="mobile-nav-cta" data-ga-event="start_free_trial">Start Free Trial</a>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top" aria-label="86'd home">
+      <img src="assets/logo-96.webp" width="36" height="36" alt="" class="brand-mark">
+      <span class="brand-word">86'd</span>
+    </a>
+    <nav class="header-nav" aria-label="Sections">
+      <a href="#how-it-works">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
     </nav>
+    <a class="btn btn-red header-cta"
+       href="https://apps.apple.com/us/app/86d-bar-inventory/id6798359825"
+       data-appstore="nav" target="_blank" rel="noopener">Start free trial</a>
+  </div>
+</header>
 
-    <!-- HERO SECTION -->
-    <section class="hero" id="hero">
-        <div class="container">
-            <h1 class="hero-headline">Bar Inventory, Without the Clipboard</h1>
-            <p class="hero-subheadline">Point your phone at a bottle. 86'd's AI identifies it — name, brand, category — in seconds. You confirm the count, and 86'd handles the rest: matching your prices and building the order.</p>
-            <div class="hero-ctas">
-                <a href="https://apps.apple.com/app/id6798359825" target="_blank" rel="noopener" class="btn btn-primary" data-ga-event="start_free_trial">Start Free Trial</a>
-                <a href="#how-it-works" class="btn btn-secondary" data-ga-event="see_how_it_works">See How It Works</a>
-            </div>
+<main id="main">
+
+<!-- ============ 1. HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <h1>Count the bar.<br>Send every order.<br><span class="accent">15 minutes.</span></h1>
+      <p class="lede">Point your iPhone at each bottle, tap the count, and every distributor gets their order at once.</p>
+      <div class="cta-row">
+        <a class="badge-link"
+           href="https://apps.apple.com/us/app/86d-bar-inventory/id6798359825"
+           data-appstore="hero" target="_blank" rel="noopener">
+          <img src="assets/app-store-badge.svg" width="162" height="54" alt="Download 86'd on the App Store">
+        </a>
+        <figure class="qr">
+          <img src="assets/app-store-qr.svg" width="112" height="112" alt="QR code that opens 86'd on the App Store">
+          <figcaption>Scan with your iPhone camera</figcaption>
+        </figure>
+      </div>
+      <p class="fine">15 days free &middot; no card &middot; iPhone</p>
+    </div>
+
+    <div class="hero-visual">
+      <!-- PHASE 2: drop hero.mp4 / hero.webm / hero-poster.webp into assets/screens/,
+           then delete the <img> below and uncomment this video. See assets/screens/README.md.
+      <video class="hero-video" playsinline muted loop autoplay
+             poster="assets/screens/hero-poster.webp" width="560" height="560">
+        <source src="assets/screens/hero.webm" type="video/webm">
+        <source src="assets/screens/hero.mp4" type="video/mp4">
+      </video>
+      -->
+      <img class="logo-card" src="assets/logo-640.webp"
+           srcset="assets/logo-640.webp 640w, assets/logo-1280.webp 1280w"
+           sizes="(min-width: 900px) 420px, 240px"
+           width="640" height="640"
+           alt="The 86'd app icon: a red 86'd stamp above a skyline of bottles">
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2. SOUND FAMILIAR? ============ -->
+<section class="band" id="sound-familiar">
+  <div class="wrap">
+    <h2>Sound familiar?</h2>
+    <ul class="ask-grid">
+      <li class="ask">Still counting on a clipboard after close?</li>
+      <li class="ask">Texting five reps one at a time?</li>
+      <li class="ask">Out of your top seller on a Friday?</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 3. HOW IT WORKS ============ -->
+<section class="band" id="how-it-works">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <ol class="steps">
+
+      <li class="step">
+        <span class="step-num" aria-hidden="true">1</span>
+        <span class="step-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 8a2 2 0 0 1 2-2h2.5l1.2-2h6.6l1.2 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <circle cx="12" cy="12.5" r="3.6"/>
+          </svg>
+        </span>
+        <h3>Point the camera at a bottle</h3>
+        <p>The AI reads the label and identifies it: name, brand, category.</p>
+        <!-- PHASE 2 SLOT: add assets/screens/step-1.webp, then uncomment.
+        <img class="step-shot" src="assets/screens/step-1.webp" width="600" height="1300" alt="Scanning a bottle in the 86'd app">
+        -->
+      </li>
+
+      <li class="step">
+        <span class="step-num" aria-hidden="true">2</span>
+        <span class="step-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="3" width="16" height="18" rx="2"/>
+            <path d="M8 8h.01M12 8h.01M16 8h.01M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/>
+          </svg>
+        </span>
+        <h3>Tap in the count</h3>
+        <p>A number pad, one bottle at a time. Then straight on to the next.</p>
+        <!-- PHASE 2 SLOT: add assets/screens/step-2.webp, then uncomment.
+        <img class="step-shot" src="assets/screens/step-2.webp" width="600" height="1300" alt="Tapping a count into the 86'd number pad">
+        -->
+      </li>
+
+      <li class="step">
+        <span class="step-num" aria-hidden="true">3</span>
+        <span class="step-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 7h16M4 12h11M4 17h6"/>
+            <path d="M18 14v6m0 0 2.5-2.5M18 20l-2.5-2.5"/>
+          </svg>
+        </span>
+        <h3>It sorts by distributor as you go</h3>
+        <p>Every bottle lands under the distributor you buy it from. No sorting afterwards.</p>
+        <!-- PHASE 2 SLOT: add assets/screens/step-3.webp, then uncomment.
+        <img class="step-shot" src="assets/screens/step-3.webp" width="600" height="1300" alt="Orders grouped by distributor in the 86'd app">
+        -->
+      </li>
+
+      <li class="step">
+        <span class="step-num" aria-hidden="true">4</span>
+        <span class="step-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="5" width="18" height="14" rx="2"/>
+            <path d="m3.5 6.5 8.5 6 8.5-6"/>
+          </svg>
+        </span>
+        <h3>Tap &ldquo;Email&rdquo;</h3>
+        <p>Every distributor gets its order at once. The count and the orders take about 10&ndash;15 minutes instead of an evening.</p>
+        <!-- PHASE 2 SLOT: add assets/screens/step-4.webp, then uncomment.
+        <img class="step-shot" src="assets/screens/step-4.webp" width="600" height="1300" alt="Sending every distributor order from the 86'd app">
+        -->
+      </li>
+
+    </ol>
+  </div>
+</section>
+
+<!-- ============ 4. THE ORDER YOUR REP ACTUALLY GETS ============ -->
+<section class="band band-alt" id="the-order">
+  <div class="wrap narrow">
+    <h2>The order your rep actually gets</h2>
+
+    <figure class="email-figure">
+      <div class="email-card">
+        <p class="email-tag">Example order</p>
+        <div class="email-head">
+          <p><span class="email-label">From</span> The Hideaway</p>
+          <p><span class="email-label">To</span> Metro Beverage &mdash; orders</p>
+          <p class="email-subject"><span class="email-label">Subject</span> Order #1042 from The Hideaway</p>
         </div>
-    </section>
-
-    <!-- HOW IT WORKS SECTION -->
-    <section class="how-it-works" id="how-it-works">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">How It Works</h2>
-                <p class="section-subtitle">Three Steps. No Clipboard.</p>
-            </div>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                            <circle cx="12" cy="13" r="4"></circle>
-                        </svg>
-                    </div>
-                    <h3 class="step-title">Scan</h3>
-                    <p class="step-description">Point your camera at a bottle. 86'd's AI identifies the name, brand, and category — no barcode, no searching a catalog.</p>
-                    <div class="step-line"></div>
-                </div>
-                <div class="step">
-                    <div class="step-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                        </svg>
-                    </div>
-                    <h3 class="step-title">Review</h3>
-                    <p class="step-description">Confirm what the AI found and tap in your current count. Everything lands in one review grid, so gaps are easy to spot before you move on.</p>
-                    <div class="step-line"></div>
-                </div>
-                <div class="step">
-                    <div class="step-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="9" cy="21" r="1"></circle>
-                            <circle cx="20" cy="21" r="1"></circle>
-                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                        </svg>
-                    </div>
-                    <h3 class="step-title">Order</h3>
-                    <p class="step-description">One tap sends reorder requests to all your distributors simultaneously. Done before your first guest walks in.</p>
-                </div>
-            </div>
+        <div class="email-body">
+          <ul class="email-items">
+            <li><span>2</span> Tito's Handmade Vodka 1L</li>
+            <li><span>1</span> Espol&oacute;n Reposado 750ml</li>
+            <li><span>3</span> Bulleit Bourbon 750ml</li>
+            <li><span>1</span> Campari 1L</li>
+          </ul>
+          <p class="email-note">Please put order #1042 on the invoice.</p>
+          <p class="email-sig">Sent for Dana Reyes, bar manager, The Hideaway.</p>
         </div>
-    </section>
+      </div>
+      <figcaption>Every order numbered, so the invoice matches.</figcaption>
+    </figure>
+  </div>
+</section>
 
-    <!-- FEATURES SECTION -->
-    <section class="features" id="features">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Features</h2>
-                <p class="section-subtitle">Built for the Bar Floor</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card" data-ga-event="feature_click">
-                    <div class="feature-icon feature-icon-gold">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                            <circle cx="12" cy="13" r="4"></circle>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">AI Bottle ID</h3>
-                    <p class="feature-description">Point, don't type. Photograph a bottle and 86'd's AI identifies the name, brand, and category — you just confirm the count.</p>
-                </div>
-                <div class="feature-card" data-ga-event="feature_click">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="12" y1="1" x2="12" y2="23"></line>
-                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">Set Prices Once</h3>
-                    <p class="feature-description">Price a bottle one time in your Price Book. Every future scan matches it automatically, forever — no re-entering prices on inventory day.</p>
-                </div>
-                <div class="feature-card" data-ga-event="feature_click">
-                    <div class="feature-icon feature-icon-gold">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">One-Tap Ordering</h3>
-                    <p class="feature-description">Connect your distributors once. When counts run low, 86'd sorts everything by distributor and sends the order in a single tap.</p>
-                </div>
-                <div class="feature-card" data-ga-event="feature_click">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                        </svg>
-                    </div>
-                    <h3 class="feature-title">Built for Every Bar You Run</h3>
-                    <p class="feature-description">Switch between locations from one account. Counts, prices, and distributors stay separate for each bar automatically — no extra charge, no separate setup.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- ============ 5. SET IT ONCE ============ -->
+<section class="band" id="set-it-once">
+  <div class="wrap">
+    <h2>Set it once</h2>
+    <p class="band-lede">Set the first time you count a bottle. Every count after that only asks for the number.</p>
+    <ul class="tiles">
+      <li class="tile"><h3>Price</h3><p>What you pay for the bottle.</p></li>
+      <li class="tile"><h3>Par</h3><p>How many you want on the shelf.</p></li>
+      <li class="tile"><h3>Distributor</h3><p>Who the order goes to.</p></li>
+    </ul>
+    <p class="band-foot">No setup day: the first count builds the bottle book.</p>
+  </div>
+</section>
 
-    <!-- PRICING SECTION -->
-    <section class="pricing" id="pricing">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Pricing</h2>
-                <p class="section-subtitle">Less Than a Bottle of Top Shelf. Per Month.</p>
-                <p class="section-context">Competitors charge $165–$799/month and still make you count by hand. We don't.</p>
-            </div>
-            <div class="pricing-grid">
-                <div class="pricing-card pricing-card-single">
-                    <h3 class="pricing-name">$29.99 / month</h3>
-                    <p class="pricing-description">Everything included: AI bottle scanning, unlimited bar locations, your permanent Price Book, distributor management, and one-tap ordering. One plan, no add-ons, no per-location fee.</p>
-                    <p class="pricing-trial">30 days — no credit card required. Full access, no limits. Run a real inventory before you commit to a cent.</p>
-                    <a href="https://apps.apple.com/app/id6798359825" target="_blank" rel="noopener" class="btn btn-primary btn-full" data-ga-event="start_free_trial">Start Free Trial</a>
-                    <p class="platform-note">iPhone only. Requires iOS 15 or later.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- ============ 6. FROM THE FOUNDER ============ -->
+<section class="band band-alt" id="founder">
+  <div class="wrap narrow">
+    <h2>From the founder</h2>
+    <div class="founder-card">
+      <!-- PHASE 2 SLOT: add assets/screens/stephan.webp plus his two sentences, then uncomment.
+      <img class="founder-photo" src="assets/screens/stephan.webp" width="160" height="160" alt="Stephan Khouri">
+      -->
+      <div class="founder-copy">
+        <p class="founder-line">86'd is built by Stephan Khouri. Questions before you try it? Call or text me.</p>
+        <p class="founder-contact">
+          <a href="tel:+19103352760">910-335-2760</a>
+          <a href="mailto:stephan@my86d.com">stephan@my86d.com</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- FAQ SECTION -->
-    <section class="faq" id="faq">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">FAQ</h2>
-                <p class="section-subtitle">Questions We Hear at the Bar</p>
-            </div>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false" data-ga-event="faq_expand">
-                        <span>Does it work in a dimly lit bar?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>86'd's AI handles most bar lighting well. For a very dark corner, stepping closer or adding a light helps it read the label clearly.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false" data-ga-event="faq_expand">
-                        <span>What if the AI gets a bottle wrong?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Tap to correct the name or brand before confirming the count — it takes a few seconds, and 86'd remembers the correction for next time.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false" data-ga-event="faq_expand">
-                        <span>Which distributors are supported?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Add your own distributors once — name, email or phone, and rep — in Settings. They're saved for every future order, and there's no limit on how many you add.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false" data-ga-event="faq_expand">
-                        <span>Is my inventory data secure?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>All data is encrypted in transit and at rest. Your counts, orders, and analytics are yours — always.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false" data-ga-event="faq_expand">
-                        <span>Can multiple staff members use it?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Yes. Add each staff member's name once per bar, and every count gets logged under whoever did it — no separate logins or passwords needed.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" aria-expanded="false" data-ga-event="faq_expand">
-                        <span>What if I need help getting started?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>The app walks you through your first scan the moment you open it. Beyond that, reach out at southportai@hotmail.com and we'll get back to you.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- ============ 7. PRICING ============ -->
+<section class="band" id="pricing">
+  <div class="wrap narrow">
+    <h2>Pricing</h2>
+    <div class="price-card" id="price-card">
+      <img class="price-mark" src="assets/logo-96.webp" width="64" height="64" alt="">
 
-    <!-- FINAL CTA SECTION -->
-    <section class="final-cta" id="final-cta">
-        <div class="container">
-            <h2 class="final-cta-headline">Ditch the Clipboard.</h2>
-            <p class="final-cta-subheadline">30 days free — no credit card, no commitment, no excuse to spend another hour counting bottles.</p>
-            <a href="https://apps.apple.com/app/id6798359825" target="_blank" rel="noopener" class="btn btn-primary btn-full" data-ga-event="start_free_trial">Start Free Trial — It's Free</a>
-            <p class="platform-note">iPhone only. Requires iOS 15 or later.</p>
-        </div>
-    </section>
+      <!-- LAUNCH-OFFER-START - delete this whole block to remove the launch price tag -->
+      <p class="launch-tag">Launch price: $29.99/mo for our first 10 bars</p>
+      <!-- LAUNCH-OFFER-END -->
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-column">
-                    <h4 class="footer-heading">Product</h4>
-                    <a href="#features" class="footer-link">Features</a>
-                    <a href="#pricing" class="footer-link">Pricing</a>
-                    <a href="#how-it-works" class="footer-link">How It Works</a>
-                </div>
-                <div class="footer-column">
-                    <h4 class="footer-heading">Legal</h4>
-                    <a href="https://eight6d-api.onrender.com/legal/privacy" class="footer-link">Privacy Policy</a>
-                    <a href="https://eight6d-api.onrender.com/legal/terms" class="footer-link">Terms of Service</a>
-                    <a href="mailto:southportai@hotmail.com" class="footer-link">Contact</a>
-                </div>
-                <div class="footer-column">
-                    <h4 class="footer-heading">Get the App</h4>
-                    <a href="https://apps.apple.com/app/id6798359825" target="_blank" rel="noopener" class="footer-link" data-ga-event="start_free_trial">Download for iPhone</a>
-                </div>
-            </div>
-            <p class="footer-copyright">© 2026 86'd. Helping bartenders work smarter.</p>
-            <p class="footer-company">my86d.com is owned and operated by Southport AI Solutions.</p>
-        </div>
-    </footer>
+      <p class="price">$49.99<span>/month</span></p>
+      <p class="price-trial">15 days free &middot; no credit card</p>
+      <p class="price-cancel">Cancel any time from the app.</p>
 
-    <script src="js/main.js"></script>
+      <ul class="price-list">
+        <li>AI bottle scanning</li>
+        <li>Unlimited bars</li>
+        <li>Saved prices, pars and distributors</li>
+        <li>One-tap orders to every distributor</li>
+        <li>Order history</li>
+      </ul>
+
+      <div class="cta-row cta-row-center">
+        <a class="badge-link"
+           href="https://apps.apple.com/us/app/86d-bar-inventory/id6798359825"
+           data-appstore="pricing" target="_blank" rel="noopener">
+          <img src="assets/app-store-badge.svg" width="162" height="54" alt="Download 86'd on the App Store">
+        </a>
+        <figure class="qr">
+          <img src="assets/app-store-qr.svg" width="112" height="112" alt="QR code that opens 86'd on the App Store">
+          <figcaption>Scan with your iPhone camera</figcaption>
+        </figure>
+      </div>
+
+      <p class="fine">iPhone only &middot; iOS 15.1 or later</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8. FAQ ============ -->
+<section class="band band-alt" id="faq">
+  <div class="wrap narrow">
+    <h2>Straight answers</h2>
+    <div class="faq-list">
+
+      <details>
+        <summary>Is there an Android version?</summary>
+        <p>No. iPhone only, iOS 15.1 or later. Whoever counts needs an iPhone.</p>
+      </details>
+
+      <details>
+        <summary>Does it work in a dark bar?</summary>
+        <p>Usually. For a very dark corner, step closer or use the phone's light.</p>
+      </details>
+
+      <details>
+        <summary>What if it reads a bottle wrong?</summary>
+        <p>Two AIs read every label. When they disagree, the app flags the bottle for a quick look instead of guessing. If one's wrong, remove that row and add the right bottle.</p>
+      </details>
+
+      <details>
+        <summary>Does it connect to my POS?</summary>
+        <p>No. It counts what's on the shelf and orders from that.</p>
+      </details>
+
+      <details>
+        <summary>How do orders reach my distributors?</summary>
+        <p>By email, to the rep or order address you add once.</p>
+      </details>
+
+      <details>
+        <summary>Do I need a card for the trial?</summary>
+        <p>No. 15 days free, then $49.99/month. Cancel from the app.</p>
+      </details>
+
+      <details>
+        <summary>Can I run more than one bar?</summary>
+        <p>Yes. One account, each bar kept separate, no extra fee. Each bar keeps its own counts, prices and distributors.</p>
+      </details>
+
+      <details>
+        <summary>Can my staff count?</summary>
+        <p>Yes. Add their names and each count records who did it. No extra logins.</p>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9. FINAL CTA ============ -->
+<section class="final" id="final-cta">
+  <div class="wrap narrow">
+    <h2>Try it on your next count.</h2>
+    <div class="cta-row cta-row-center">
+      <a class="badge-link"
+         href="https://apps.apple.com/us/app/86d-bar-inventory/id6798359825"
+         data-appstore="final" target="_blank" rel="noopener">
+        <img src="assets/app-store-badge.svg" width="162" height="54" alt="Download 86'd on the App Store">
+      </a>
+      <figure class="qr">
+        <img src="assets/app-store-qr.svg" width="112" height="112" alt="QR code that opens 86'd on the App Store">
+        <figcaption>Scan with your iPhone camera</figcaption>
+      </figure>
+    </div>
+    <p class="fine">15 days free &middot; no card</p>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="wrap">
+    <img class="footer-mark" src="assets/logo-96.webp" width="40" height="40" alt="86'd">
+    <nav class="footer-links" aria-label="Footer">
+      <a href="https://eight6d-api.onrender.com/legal/privacy">Privacy</a>
+      <a href="https://eight6d-api.onrender.com/legal/terms">Terms</a>
+      <a href="mailto:stephan@my86d.com">stephan@my86d.com</a>
+      <a href="tel:+19103352760">910-335-2760</a>
+      <a href="https://apps.apple.com/us/app/86d-bar-inventory/id6798359825"
+         data-appstore="footer" target="_blank" rel="noopener">App Store</a>
+    </nav>
+    <p class="footer-copy">&copy; 2026 Southport AI Solutions</p>
+  </div>
+</footer>
+
+<!-- Mobile sticky bar: hidden until JS reveals it, so it can never stick with JS off -->
+<div class="sticky-bar" id="stickyBar" hidden>
+  <a class="badge-link"
+     href="https://apps.apple.com/us/app/86d-bar-inventory/id6798359825"
+     data-appstore="sticky" target="_blank" rel="noopener">
+    <img src="assets/app-store-badge.svg" width="120" height="40" alt="Download 86'd on the App Store">
+  </a>
+  <span>15 days free</span>
+</div>
+
+<script src="js/main.js" defer></script>
 </body>
 </html>
