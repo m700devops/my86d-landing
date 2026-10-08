@@ -163,33 +163,47 @@ a:hover{color:var(--text)}
 /* ---------- 4. the order your rep gets ---------- */
 .email-figure{margin:0}
 .email-card{
+  max-width:520px;margin-inline:auto;
   background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
   overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.45);
 }
-.band-alt .email-card{background:var(--bg)}
-.email-tag{
-  background:var(--border);color:var(--text-2);
-  font:600 11px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;
-  padding:9px 20px;
+.email-head{
+  display:flex;flex-direction:column;gap:18px;
+  background:#222;border-bottom:1px solid var(--border);
+  padding:24px clamp(18px,6vw,32px) 20px;
 }
-.email-head{padding:20px 20px 16px;border-bottom:1px solid var(--border)}
-.email-head p{font-size:15px;color:var(--text-2);margin-bottom:6px}
-.email-label{display:inline-block;min-width:62px;color:var(--text-2);font-size:13px}
-.email-subject{color:var(--text) !important;font-weight:600;margin-bottom:0 !important}
-.email-body{padding:20px}
-.email-items li{
-  display:flex;gap:12px;align-items:baseline;
-  padding:9px 0;border-bottom:1px solid var(--border);font-size:15.5px;
+.email-from{display:flex;align-items:center;gap:12px}
+.email-avatar{
+  flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;
+  background:var(--red);color:#fff;font:700 17px/1 var(--body);
 }
-.email-items li:last-child{border-bottom:0}
-.email-items span{
-  flex:none;min-width:30px;text-align:center;
-  background:var(--border);border-radius:6px;padding:2px 6px;
-  font:600 13px/1.5 var(--body);color:var(--text);
+.email-who{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.35}
+.email-who strong{font-size:15px;font-weight:700}
+.email-who span{font-size:13px;color:var(--text-2)}
+.email-time{flex:none;align-self:flex-start;margin-left:auto;font-size:12px;color:var(--text-2)}
+.email-subject{font-size:22px;font-weight:700;line-height:1.25;letter-spacing:-.01em}
+.email-info{
+  display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 16px;
+  padding:14px clamp(18px,6vw,32px);border-bottom:1px solid var(--border);font-size:14px;
 }
-.email-note{margin-top:18px;font-weight:600;font-size:15.5px}
-.email-sig{margin-top:12px;color:var(--text-2);font-size:14.5px}
+.email-info span{color:var(--text-2)}
+.email-mono,.email-qty{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.email-body{display:flex;flex-direction:column;gap:26px;padding:28px clamp(18px,6vw,32px) 32px}
+.email-items{display:flex;flex-direction:column;gap:14px;font-size:17px;line-height:1.4}
+.email-items li{display:flex;align-items:baseline;gap:12px}
+.email-dots{flex:1;min-width:12px;border-bottom:1px dotted #444}
+.email-qty{flex:none;white-space:nowrap;font-size:15px;color:var(--red-text)}
+.email-note{
+  background:#241619;border-radius:10px;padding:14px 16px;
+  font-size:15px;font-weight:700;color:#ffd9dd;
+}
+.email-sig{font-size:13px;color:var(--text-2)}
 .email-figure figcaption{margin-top:16px;color:var(--text-2);font-size:15px}
+/* on the narrowest phones the item names wrap, which leaves the leader a stub */
+@media (max-width:360px){
+  .email-dots{display:none}
+  .email-qty{margin-left:auto}
+}
 
 /* ---------- 5. set it once ---------- */
 .tiles{display:grid;gap:14px}
