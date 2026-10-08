@@ -193,14 +193,10 @@ a:hover{color:var(--text)}
 .email-items li{display:flex;align-items:baseline;gap:12px}
 .email-dots{flex:1;min-width:12px;border-bottom:1px dotted #444}
 .email-qty{flex:none;white-space:nowrap;font-size:15px;color:var(--red-text)}
-.email-note{
-  background:#241619;border-radius:10px;padding:14px 16px;
-  font-size:15px;font-weight:700;color:#ffd9dd;
-}
-.email-sig{font-size:13px;color:var(--text-2)}
+.email-sig{font-size:14px;line-height:1.5;color:var(--text-2)}
 .email-figure figcaption{margin-top:16px;color:var(--text-2);font-size:15px}
-/* on the narrowest phones the item names wrap, which leaves the leader a stub */
-@media (max-width:360px){
+/* on a phone the item names wrap beside a unit, which leaves the leader a stub */
+@media (max-width:420px){
   .email-dots{display:none}
   .email-qty{margin-left:auto}
 }
