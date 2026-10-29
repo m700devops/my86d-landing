@@ -173,6 +173,30 @@ gtag('config', 'G-CNKRVQYBB0');
 <section class="band" id="how-it-works">
   <div class="wrap">
     <h2>How it works</h2>
+
+    <!-- The 6MB file is never fetched until someone presses play: preload="none"
+         plus a poster. The overlay button is the whole poster area, so a tap
+         anywhere starts it, with sound. -->
+    <div class="demo">
+      <div class="demo-player">
+        <video class="demo-video" id="demoVideo" controls playsinline preload="none"
+               poster="assets/screens/demo-poster.webp" width="720" height="1558">
+          <source src="assets/screens/demo.mp4" type="video/mp4">
+        </video>
+        <button class="demo-play" type="button" id="demoPlay"
+                aria-label="Play the 39-second demo with sound">
+          <span class="demo-play-dot">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.4v13.2L19 12z" fill="currentColor"/></svg>
+          </span>
+        </button>
+      </div>
+      <p class="demo-note">Watch a full count and order &middot; 39 seconds &middot; sound on</p>
+      <details class="demo-transcript">
+        <summary>Read the transcript</summary>
+        <p>This is 86'd. Bar inventory, in minutes. Point your phone at a bottle, and tap. Type in how many you have. The AI reads the label and names the bottle for you. No searching. No typing bottle names. Just point, tap, and count. When the shelf's done, tap Done. Every bottle, what you have, and what you're short. It builds the order for each distributor. One tap sends it. Your distributors get the order by email. Try 86'd free for fifteen days. Download it on the App Store.</p>
+      </details>
+    </div>
+
     <ol class="steps">
 
       <li class="step">
@@ -183,10 +207,10 @@ gtag('config', 'G-CNKRVQYBB0');
             <circle cx="12" cy="12.5" r="3.6"/>
           </svg>
         </span>
-        <h3>Point the camera at a bottle</h3>
-        <p>The AI reads the label and identifies it: name, brand, category.</p>
+        <h3>Snap the label</h3>
+        <p>Point your iPhone at a bottle and tap the shutter.</p>
         <!-- PHASE 2 SLOT: add assets/screens/step-1.webp, then uncomment.
-        <img class="step-shot" src="assets/screens/step-1.webp" width="600" height="1300" alt="Scanning a bottle in the 86'd app">
+        <img class="step-shot" src="assets/screens/step-1.webp" width="600" height="1300" alt="Snapping a bottle label in the 86'd app">
         -->
       </li>
 
@@ -198,10 +222,10 @@ gtag('config', 'G-CNKRVQYBB0');
             <path d="M8 8h.01M12 8h.01M16 8h.01M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/>
           </svg>
         </span>
-        <h3>Tap in the count</h3>
+        <h3>Type the count</h3>
         <p>A number pad, one bottle at a time. Then straight on to the next.</p>
         <!-- PHASE 2 SLOT: add assets/screens/step-2.webp, then uncomment.
-        <img class="step-shot" src="assets/screens/step-2.webp" width="600" height="1300" alt="Tapping a count into the 86'd number pad">
+        <img class="step-shot" src="assets/screens/step-2.webp" width="600" height="1300" alt="Typing a count into the 86'd number pad">
         -->
       </li>
 
@@ -209,14 +233,14 @@ gtag('config', 'G-CNKRVQYBB0');
         <span class="step-num" aria-hidden="true">3</span>
         <span class="step-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 7h16M4 12h11M4 17h6"/>
-            <path d="M18 14v6m0 0 2.5-2.5M18 20l-2.5-2.5"/>
+            <path d="M12.6 2.7H4.5a1.8 1.8 0 0 0-1.8 1.8v8.1c0 .5.2.9.5 1.3l7 7a1.8 1.8 0 0 0 2.5 0l7.4-7.4a1.8 1.8 0 0 0 0-2.5l-7-7a1.8 1.8 0 0 0-1.3-.6z"/>
+            <path d="M7.5 7.5h.01"/>
           </svg>
         </span>
-        <h3>It sorts by distributor as you go</h3>
-        <p>Every bottle lands under the distributor you buy it from. No sorting afterwards.</p>
+        <h3>AI names the bottle</h3>
+        <p>Two AIs read the label in the background: name, brand, category. No searching, no typing names.</p>
         <!-- PHASE 2 SLOT: add assets/screens/step-3.webp, then uncomment.
-        <img class="step-shot" src="assets/screens/step-3.webp" width="600" height="1300" alt="Orders grouped by distributor in the 86'd app">
+        <img class="step-shot" src="assets/screens/step-3.webp" width="600" height="1300" alt="The 86'd app naming a bottle from its label">
         -->
       </li>
 
@@ -224,14 +248,29 @@ gtag('config', 'G-CNKRVQYBB0');
         <span class="step-num" aria-hidden="true">4</span>
         <span class="step-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 7h16M4 12h11M4 17h6"/>
+            <path d="M18 14v6m0 0 2.5-2.5M18 20l-2.5-2.5"/>
+          </svg>
+        </span>
+        <h3>See what's short</h3>
+        <p>Every bottle next to its par, with exactly how many you're short.</p>
+        <!-- PHASE 2 SLOT: add assets/screens/step-4.webp, then uncomment.
+        <img class="step-shot" src="assets/screens/step-4.webp" width="600" height="1300" alt="Bottles listed next to their par in the 86'd app">
+        -->
+      </li>
+
+      <li class="step">
+        <span class="step-num" aria-hidden="true">5</span>
+        <span class="step-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="5" width="18" height="14" rx="2"/>
             <path d="m3.5 6.5 8.5 6 8.5-6"/>
           </svg>
         </span>
-        <h3>Tap &ldquo;Email&rdquo;</h3>
-        <p>Every distributor gets its order at once. The count and the orders take about 10&ndash;15 minutes instead of an evening.</p>
-        <!-- PHASE 2 SLOT: add assets/screens/step-4.webp, then uncomment.
-        <img class="step-shot" src="assets/screens/step-4.webp" width="600" height="1300" alt="Sending every distributor order from the 86'd app">
+        <h3>Orders built for you</h3>
+        <p>Sorted by distributor. One tap emails every rep their order. The count and the orders take about 10&ndash;15 minutes instead of an evening.</p>
+        <!-- PHASE 2 SLOT: add assets/screens/step-5.webp, then uncomment.
+        <img class="step-shot" src="assets/screens/step-5.webp" width="600" height="1300" alt="Distributor orders ready to send from the 86'd app">
         -->
       </li>
 

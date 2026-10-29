@@ -145,6 +145,36 @@ a:hover{color:var(--text)}
 .band-alt .ask{background:var(--bg)}
 
 /* ---------- 3. how it works ---------- */
+
+/* the demo video: phone-shaped, click anywhere on the poster to play */
+.demo{margin-bottom:36px}
+.demo-player{
+  position:relative;
+  width:100%;max-width:300px;margin-inline:auto;
+  aspect-ratio:720 / 1558;
+  border-radius:36px;
+  box-shadow:0 30px 70px rgba(0,0,0,.6);
+}
+.demo-video{width:100%;height:100%;border-radius:36px;background:#000}
+.demo-play{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  padding:0;border:0;border-radius:36px;background:transparent;cursor:pointer;
+}
+.demo-play:focus-visible{outline-offset:-6px}
+.demo-play-dot{
+  display:flex;align-items:center;justify-content:center;
+  width:88px;height:88px;border-radius:50%;
+  background:var(--red);color:#fff;
+  box-shadow:0 10px 30px rgba(0,0,0,.5);
+  transition:background .2s ease;
+}
+.demo-play:hover .demo-play-dot,
+.demo-play:focus-visible .demo-play-dot{background:var(--red-pressed)}
+.demo-play svg{width:36px;height:36px;margin-left:5px}
+.demo-note{margin-top:16px;text-align:center;color:var(--text-2);font-size:15px}
+.demo-transcript{max-width:640px;margin:16px auto 0;background:var(--surface)}
+
 .steps{display:grid;gap:16px;counter-reset:step}
 .step{
   position:relative;
@@ -302,7 +332,9 @@ details p{padding:0 20px 20px;color:var(--text-2);font-size:15.5px}
 
 @media (min-width:600px){
   .ask-grid,.tiles{grid-template-columns:repeat(3,1fr)}
+  /* 5 steps over 2 columns: the last one runs full width so it isn't an orphan */
   .steps{grid-template-columns:repeat(2,1fr)}
+  .step:last-child{grid-column:1 / -1}
   .footer-links{flex-direction:row;flex-wrap:wrap;gap:0 26px}
 }
 
@@ -326,7 +358,15 @@ details p{padding:0 20px 20px;color:var(--text-2);font-size:15.5px}
 
   .band{padding:104px 0}
   .band h2{font-size:clamp(38px,3.6vw,48px);margin-bottom:40px}
-  .steps{grid-template-columns:repeat(4,1fr)}
+  .demo{margin-bottom:48px}
+  .demo-player{max-width:340px}
+  /* 5 steps as 3 + 2, the last row centred. Six tracks, each card spans two,
+     so cards 4 and 5 sit half a card in from the edges. Five equal columns
+     squeezes the copy to ~185px at 1024 and the paragraphs run eight lines. */
+  .steps{grid-template-columns:repeat(6,1fr)}
+  .step{grid-column:span 2}
+  .step:nth-child(4){grid-column:2 / span 2}
+  .step:nth-child(5){grid-column:4 / span 2}
   .founder-card{padding:36px 40px}
   .final{padding:120px 0}
 }

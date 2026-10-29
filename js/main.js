@@ -46,6 +46,36 @@
     });
   });
 
+  /* ---------- "How it works" demo: play, and one event each way ----------
+     The overlay covers the poster. Once it's playing the native controls
+     take over; it comes back if the video runs to the end. */
+  var demoVideo = document.getElementById('demoVideo');
+  var demoPlay = document.getElementById('demoPlay');
+
+  if (demoVideo && demoPlay) {
+    var playFired = false;
+    var endFired = false;
+
+    demoPlay.addEventListener('click', function () {
+      var started = demoVideo.play();
+      if (started && started.catch) started.catch(function () {});
+    });
+
+    demoVideo.addEventListener('playing', function () {
+      demoPlay.hidden = true;
+      if (playFired) return;
+      playFired = true;
+      track('demo_play');
+    });
+
+    demoVideo.addEventListener('ended', function () {
+      demoPlay.hidden = false;
+      if (endFired) return;
+      endFired = true;
+      track('demo_complete');
+    });
+  }
+
   /* ---------- scroll depth: 50% and 90%, once each ---------- */
   var marks = [50, 90];
   function onScroll() {
