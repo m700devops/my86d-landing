@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>86'd — 35-second walkthrough</title>
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#0F0F0F">
+<noscript><meta http-equiv="refresh" content="0; url=https://eight6d-api.onrender.com/watch"></noscript>
+<style>
+  html, body { margin: 0; height: 100%; background: #0F0F0F; color: #fff;
+    font: 16px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  body { display: flex; align-items: center; justify-content: center; }
+  a { color: #fff; }
+</style>
+
+<!-- Same GA4 property as the rest of the site. Loaded right away here (not on
+     idle like the home page): the visit has to be sent before we redirect. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CNKRVQYBB0"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-CNKRVQYBB0');
+
+(function () {
+  var TARGET = 'https://eight6d-api.onrender.com/watch';
+  var search = location.search || '';
+  var src = 'direct';
+  try {
+    var v = new URLSearchParams(search).get('src');
+    if (v) src = String(v).slice(0, 100);
+  } catch (e) {}
+
+  var gone = false;
+  function go() {
+    if (gone) return;
+    gone = true;
+    location.replace(TARGET + search);
+  }
+
+  gtag('event', 'watch_redirect', { src: src, event_callback: go });
+  setTimeout(go, 1000);
+})();
+</script>
+</head>
+<body>
+<p><a id="watch-link" href="https://eight6d-api.onrender.com/watch">Watch the video</a></p>
+<script>
+  // Keep the visible link on the same query string as the automatic redirect.
+  document.getElementById('watch-link').href = 'https://eight6d-api.onrender.com/watch' + (location.search || '');
+</script>
+</body>
+</html>
